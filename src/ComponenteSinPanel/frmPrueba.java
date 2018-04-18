@@ -5,17 +5,24 @@
  */
 package ComponenteSinPanel;
 
+import com.placeholder.PlaceHolder;
+import java.awt.Color;
+
 /**
  *
  * @author sr_os
  */
 public class frmPrueba extends javax.swing.JFrame {
-
+    FormatoHolder holder = new FormatoHolder();
     /**
      * Creates new form frmPrueba
      */
+    //PlaceHolder holder;
     public frmPrueba() {
         initComponents();
+        //holder = new PlaceHolder(txtObligatorio, "Escribe aqui");
+        holder.setMensaje(txtObligatorio, "Escriba aqui", 0);
+        
     }
 
     /**
@@ -27,8 +34,8 @@ public class frmPrueba extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        componenteObligatorio = new ComponenteSinPanel.ComponenteObligatorio();
         jButton1 = new javax.swing.JButton();
+        txtObligatorio = new Componente.NewClass();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -39,24 +46,40 @@ public class frmPrueba extends javax.swing.JFrame {
             }
         });
 
+        txtObligatorio.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtObligatorioFocusLost(evt);
+            }
+        });
+        txtObligatorio.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtObligatorioMouseClicked(evt);
+            }
+        });
+        txtObligatorio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtObligatorioActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(56, 56, 56)
-                .addComponent(componenteObligatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(83, 83, 83)
+                .addComponent(txtObligatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
-                .addContainerGap(119, Short.MAX_VALUE))
+                .addContainerGap(121, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(61, 61, 61)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(componenteObligatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(jButton1)
+                    .addComponent(txtObligatorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(216, Short.MAX_VALUE))
         );
 
@@ -64,8 +87,20 @@ public class frmPrueba extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        componenteObligatorio.evaluar();
+        txtObligatorio.evaluar();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txtObligatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtObligatorioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtObligatorioActionPerformed
+
+    private void txtObligatorioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtObligatorioFocusLost
+        holder.setMensaje(txtObligatorio, "Escriba aqui", txtObligatorio.getText().trim().length());
+    }//GEN-LAST:event_txtObligatorioFocusLost
+
+    private void txtObligatorioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtObligatorioMouseClicked
+        holder.clik(txtObligatorio, "Escriba aqui");
+    }//GEN-LAST:event_txtObligatorioMouseClicked
 
     /**
      * @param args the command line arguments
@@ -103,7 +138,7 @@ public class frmPrueba extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private ComponenteSinPanel.ComponenteObligatorio componenteObligatorio;
     private javax.swing.JButton jButton1;
+    private Componente.NewClass txtObligatorio;
     // End of variables declaration//GEN-END:variables
 }
