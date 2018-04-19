@@ -1,17 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ComponenteSinPanel;
 
 import java.awt.Color;
+import java.awt.Font;
 import javax.swing.JTextField;
 
-/**
- *
- * @author sr_os
- */
 public class FormatoHolder {
     
     public void setMensaje (JTextField txtField, String mensaje, int tamanio){
@@ -24,6 +16,22 @@ public class FormatoHolder {
         if(txtField.getText().equals(mensaje)){
             txtField.setText(" ");
             txtField.setForeground(Color.BLACK);
+        }
+    }
+    public void setFontStyle(JTextField txtField, String fuente, int estilo,int tamanio){      
+        Font f = new Font(fuente,estilo,tamanio);
+        txtField.setFont(f);   
+    }
+    public void setColor(JTextField txtField, Color colorLetra, Color colorFondo){
+        txtField.setForeground(colorLetra);
+        txtField.setBackground(colorFondo);
+    }
+    public boolean enable(JTextField txtField,boolean activado){
+        if(activado == true){
+            txtField.setText(" ");
+            return activado;
+        }else{
+            return activado;
         }
     }
 }
