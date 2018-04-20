@@ -6,81 +6,159 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.BorderFactory;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 
-public class FormatoHolder extends JTextField{
-    private boolean enable = true;
-    private int alpha=255;
-    
-    public FormatoHolder(){ 
-        if(enable){
-        setMensaje("Escriba aqui");
+public class FormatoHolder extends JTextField {
+    private String mensaje = "Escriba aqui";
+    private boolean enabled = true;
+    private boolean estadoHolder;
+    private Font holderTextFont,fieldFont;
+    private Color holderTextForeground,fieldForeground,fieldBackground;
+    private int tamanio,styleTextHolder;
+
+    public FormatoHolder() {
+        setHolderTextForeground(super.getForeground());
+        setHolderTextFont(super.getFont());
+        if (enabled) {
+            setMensaje(mensaje);
+            evalua();
         }
         this.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
-                if(enable){
-                setMensaje("Escriba aqui");
+                if (enabled) {
+                    if (getText().trim().isEmpty()) {
+                        estadoHolder = true;
+                        evalua();
+                        setMensaje(mensaje);
+
+                    }
                 }
-            }   
+            }
+
+//            @Override
+//            public void focusGained(FocusEvent e) {
+//                if (enabled) {
+//                    if (estadoHolder) {
+//                        setText("");
+//                        estadoHolder = false;
+//                        evalua();
+//                    } else {
+//                        estadoHolder = false;
+//                        evalua();
+//                    }
+//                }
+//            }
+
         });
-        this.addMouseListener(new MouseAdapter(){
+        this.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e){
-                if(enable){
-                click("Escriba aqui");
+            public void mousePressed(MouseEvent e) {
+                if (enabled) {
+                    if (estadoHolder) {
+                        setText("");
+                        estadoHolder = false;
+                        evalua();
+                    } else {
+                        estadoHolder = false;
+                        evalua();
+                    }
                 }
             }
         });
-       
-    }
-   
-    public void setMensaje (String mensaje){
-        System.out.println("Focus "+this.getForeground().getAlpha()+"  "+alpha);
-        if(this.getForeground().getAlpha() ==alpha){
-        super.setText(mensaje);       
-        super.setForeground(new Color (getForeground().getRed(),getForeground().getGreen(),getForeground().getBlue(),getForeground().getAlpha()-100));
-        }
-    }
-    public void click(String mensaje){   
-        System.out.println(this.getForeground().getAlpha()+"  "+alpha);
-        if(this.getForeground().getAlpha()+100 == alpha){
-            super.setText(" "); 
-            
-            super.setForeground(new Color (getForeground().getRed(),getForeground().getGreen(),getForeground().getBlue(),getForeground().getAlpha()+100));
-        }
-    }
-    public void setFontStyle(String fuente, int estilo,int tamanio){      
-        Font f = new Font(fuente,estilo,tamanio);
-        this.setFont(f);   
+        
+        
+
     }
 
-    public void enableHolder(boolean x){
-        this.enable = x;
-        if(!x){
-            this.setText("");
-            this.setForeground(Color.black);
+    public Font getHolderTextFont() {
+        return holderTextFont;
+    }
+
+    public void setHolderTextFont(Font holderTextFont) {
+        this.holderTextFont = holderTextFont;
+    }
+    
+    public Color getHolderTextForeground() {
+        return holderTextForeground;
+    }
+
+    public void setHolderTextForeground(Color holderTextForeground) {
+        if (holderTextForeground.getAlpha() == 255) {
+            this.holderTextForeground = new Color(holderTextForeground.getRed(), holderTextForeground.getGreen(),
+                    holderTextForeground.getBlue(), holderTextForeground.getAlpha() - 100);
+        } else {
+            this.holderTextForeground = holderTextForeground;
         }
     }
-    @Override
-    public void setForeground(Color colorLetra){
-        alpha=colorLetra.getAlpha()-100;
-        super.setForeground(new Color (colorLetra.getRed(),colorLetra.getGreen(),colorLetra.getBlue(),alpha));        
+
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
     }
+    public String getMensaje(){
+        return this.mensaje;
+    }
+
+    public void enableHolder(boolean x) {
+        this.enabled = x;
+        if (!x) {
+            if (estadoHolder) {
+                estadoHolder = false;
+                evalua();
+                estadoHolder = true;
+            } else {
+                evalua();
+                super.getText();
+            }
+        } else {
+            if (getText().trim().isEmpty()) {
+                estadoHolder = true;
+                evalua();
+                setText(mensaje);
+            }
+        }
+    }
+
+    private void evalua() {
+        if (estadoHolder) {
+            super.setFont(this.getHolderTextFont());
+            super.setForeground(this.getHolderTextForeground());
+        } else {
+            super.setFont(this.fieldFont);
+            super.setForeground(this.fieldForeground);
+        }
+    }
+
     @Override
-    public void setBackground(Color colorFondo){
+    public void setForeground(Color colorLetra) {
+       super.setForeground(colorLetra);
+       fieldForeground=colorLetra;
+    }
+
+    @Override
+    public void setBackground(Color colorFondo) {
         super.setBackground(colorFondo);
+        fieldBackground = colorFondo;
+        
     }
+        @Override 
+    public void setFont(Font fuente){
+        super.setFont(fuente);
+        fieldFont=fuente;
+   }
+
     @Override
-    public String getText(){  
-System.out.println("Focus get"+this.getForeground().getAlpha()+"  "+alpha);        
-        if(this.getForeground().getAlpha()+100 == alpha){
-            return "";   
-        }else{
-            return super.getText(); 
+    public String getText() {
+        if (estadoHolder) {
+            return "";
+        } else {
+            return super.getText();
         }
+    }
+
+    @Override
+    public void setText(String s) {
+        super.setText(s);
     }
 
 }
